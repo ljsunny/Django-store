@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>
+        {% block title %}
+        {% endblock title %}
+    </title>
+    <!-- Required meta tags -->
+    {% load static %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary px-5">
+            <div class="d-flex">
+                <a href="/" class="m-0 text-white">Grocery Shop</a>
+            </div>
+            <button class="navbar-toggler d-lg-none " type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                aria-label="Toggle navigation"></button>
+            <div class="collapse navbar-collapse d-flex justify-content-center" id="collapsibleNavId">
+                <ul class="navbar-nav mt-2 mt-lg-0">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/grocery/product-list" aria-current="page">Grocery</a>
+                    </li>
+                    {% if user.is_staff %}
+                        <!-- <li class="nav-item ">
+                            <a class="nav-link" href="/grocery/users/" aria-current="page">Users</a>
+                        </li> -->
+                        <li class="nav-item ">
+                            <a class="nav-link" href="/grocery/transaction-list/" aria-current="page">Transaction</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                        stroke="currentColor" style="width:25px;height:25px">
+                        <path strokeLinecap="round" strokeLinejoin="round"
+                            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                    {% if user !=  'AnonymousUser' %}
+                        {{ user }}
+                    {% else %}
+                        Account
+                    {% endif %}
+                </a>
+                <ul class="dropdown-menu">
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'order-history' user.id %}" class="dropdown-item">Purchase History</a></li>
+                    <li><a href="/accounts/logout" class="dropdown-item">Logout</a></li>
+                    {% else %}
+                    <li><a href="/accounts/login" class="dropdown-item">Login</a></li>
+                    <li><a href="/accounts/register" class="dropdown-item">Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <a class="nav-link text-white d-flex align-items-center" href="/grocery/cart-list/" role="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" style="width:20px;height:20px">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                </svg>
+                Cart
+            </a>
+        </nav>
+    </header>
+    <main>
+        <div class="container-fluid">
+            {% block content %}
+            {% endblock content %}
+        </div>
+
+    </main>
+    <footer class="p-5 d-flex justify-content-center mt-5" style="border-top:1px solid #ececec; color:#46474a">
+        <!-- place footer here -->
+        &copy; copyright
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+
+    <script src="{% static " catalog.js" %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded",(e)=>{
+        let myModal = new bootstrap.Modal(document.getElementById("order_detail"));
+        myModal.toggle()
+})
+    </script>
+</body>
+
+</html>

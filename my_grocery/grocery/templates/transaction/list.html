@@ -1,0 +1,79 @@
+{% extends "master.html" %}
+{% load static %}
+{% block title %}
+Order List
+{% endblock title %}
+
+{% block navbar %}
+{% for navItem in navItems %}
+<li class="nav-item">
+    <a class="nav-link active" href="{{ navItem.link }}" aria-current="page">{{ navItem.label }}</a>
+</li>
+{% endfor %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="card d-flex flex-column justify-content-center mt-5 p-5">
+      <h3>Order History</h3>
+      <table class="table">
+        <thead class="thead-light">
+            <tr  style="text-align:center">
+                <th>user</th>
+                <th>total price</th>
+                <th>status</th>
+                <th>date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in order_history %}
+            <tr style="text-align:center">
+                <td><a class="detail_link" href="{{order.get_absolute_url}}">{{ order.user }}</a></td>
+                <td>${{ order.total_price }}</td>
+                <td>
+                    {% if order.status == 'p'%}
+                        <a href="{% url 'accept-status' order.id %}" class="btn btn-primary">Accept</a>
+                        <a href="{% url 'deny-status' order.id %}" class="btn btn-outline-primary">Deny</a>
+                    {% else %}
+                        {{ order.get_status_display }}
+                    {% endif%}
+                </td>
+                <td>{{ order.update_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+{% if selectedOrder %}
+<div class="modal bmodal" id="order_detail" aria-labelledby="exampleModalLabel" aria-hidden="true" style="max-height:80vh; overflow:scroll">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Order Detail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for so in selectedOrder %}
+                    <tr>
+                        <td>{{so.product.name}}</td>
+                        <td>${{so.product.price}}</td>
+                        <td>{{so.amount}}</td>
+                      </tr>
+                {% endfor %}
+                </div>
+
+                </tbody>
+              </table>
+    </div>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}

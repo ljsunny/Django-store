@@ -1,0 +1,13 @@
+{% block navbar %}
+    <li class="nav-item ">
+        <a class="nav-link" href="/grocery/product-list" aria-current="page">Grocery</a>
+    </li>
+    {% if user.is_staff %}
+        <li class="nav-item ">
+            <a class="nav-link" href="/grocery/users/" aria-current="page">Users</a>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link" href="/grocery/product-history/" aria-current="page">History</a>
+        </li>
+    {% endif %}
+{% endblock navbar %}

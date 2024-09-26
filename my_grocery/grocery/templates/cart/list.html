@@ -1,0 +1,58 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Cart List
+{% endblock title %}
+
+{% block navbar %}
+    {% for navItem in navItems %}
+    <li class="nav-item">
+        <a class="nav-link active" href="{{navItem.link}}" aria-current="page">{{navItem.label}}</a>
+    </li>
+    {% endfor %}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="row justify-content-center align-items-center g-2 mt-4">
+        <div class="col-8 mt-3">
+            <div class="card table-responsive pb-5">
+                <table class="table mt-2">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if cnt > 0 %}
+                        {% for cart_item in cartList %}
+                            <tr class="px-2">
+                                <td scope="row">{{cart_item.product_name}}</td>
+                                <td scope="row" class="text-center">{{cart_item.amount}}</td>
+                                <td scope="row" class="text-end">${{cart_item.price}}</td>
+                            </tr>
+
+                        {% endfor %}
+                    {% else %}
+                            <tr class="text-center py-3">
+                                <td colspan="3">Cart is empty</td>
+                            </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between px-2">
+                    <p class="fw-semibold">total price:</p>
+                    <p>${{total_price | floatformat:-2}}</p>
+                </div>
+                <form class="w-100" action="{% url 'add-order' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="total_price" value="{{ total_price }}">
+                    <button type="submit" class="btn btn-primary mx-2" style="width:98%">Order</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    
+{% endblock content %}

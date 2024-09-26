@@ -1,0 +1,30 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Home Page
+{% endblock title %}
+
+{% block navbar %}
+    {% for navItem in navItems %}
+    <li class="nav-item">
+        <a class="nav-link active" href="{{navItem.link}}" aria-current="page">{{navItem.label}}</a>
+    </li>
+    {% endfor %}
+{% endblock navbar %}
+
+{% block content %}
+
+   <div class="row justify-content-center align-items-center g-2" >
+    <div class="col text-center my-5 position-relative bg-black bg-opacity-50" >
+        <h1 class="position-absolute top-50 left-50 text-white">Welcome to your Lee's Grocery</h1>
+        {% load static %}
+        <div style="width: 100%; height: 100vh; background-image: url('{% static "cart.jpg" %}');background-size: cover;" >
+            <div style="width:100%;height:100%;background-color:rgba(0,0,0,.5)">
+                
+            </div>
+        </div>
+    </div>
+   </div>
+   
+    
+{% endblock content %}
